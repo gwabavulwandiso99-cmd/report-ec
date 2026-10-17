@@ -31,20 +31,21 @@
     <div class="municipality">
       <svg class="icon" viewBox="0 0 24 24"><path d="M3 10h18"/><path d="M12 3l9 7H3l9-7z"/><path d="M5 10v8M9 10v8M15 10v8M19 10v8"/><path d="M3 21h18"/></svg>
       <div>
-        <div class="municipality-name">Raymond Mhlaba</div>
+        <div class="municipality-name">Nelson Mandela Bay</div>
         <div class="municipality-sub">Eastern Cape · Municipal workspace</div>
       </div>
     </div>
 
     <div class="topbar-right">
-      <span class="pill pill-demo">Demo workspace</span>
+      <!-- Filled in by app.js from the logged-in staff account -->
       <div class="user">
-        <div class="avatar">SC</div>
+        <div class="avatar" id="user-initials">··</div>
         <div>
-          <div class="user-name">Nelson Mandela Bay</div>
-          <div class="user-role">Service coordinator</div>
+          <div class="user-name" id="user-name">Loading…</div>
+          <div class="user-role" id="user-role"></div>
         </div>
       </div>
+      <button type="button" class="btn btn-outline btn-small" id="logout-btn">Log out</button>
     </div>
   </header>
 
@@ -52,7 +53,7 @@
   <div class="notice">
     <span class="notice-text">
       <svg class="icon" viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M10 3v6L4.5 18.5A1.6 1.6 0 0 0 6 21h12a1.6 1.6 0 0 0 1.5-2.5L14 9V3"/></svg>
-      <span>Hackathon prototype · <span id="data-mode">Sample reports</span> and simulated notifications. No municipal services or messaging channels are connected.</span>
+      <span id="notice-message">Loading…</span>
     </span>
     <span id="clock"></span>
   </div>
@@ -86,7 +87,7 @@
       <div class="nav-label nav-label-gap">Reporting channels</div>
       <div class="channel">
         <svg class="icon" viewBox="0 0 24 24"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19l-4 1z"/></svg>
-        WhatsApp <span class="channel-tag">Demo</span>
+        WhatsApp <span class="channel-tag">Pilot</span>
       </div>
       <div class="channel">
         <svg class="icon" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></svg>
@@ -201,7 +202,7 @@
                 <span><i class="dot dot-medium"></i>Medium</span>
                 <span><i class="dot dot-resolved"></i>Resolved</span>
               </div>
-              <span class="map-note">Numbered pins = grouped reports · Sample locations</span>
+              <span class="map-note">Numbered pins = grouped reports</span>
             </div>
           </section>
 

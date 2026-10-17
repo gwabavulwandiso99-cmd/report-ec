@@ -1,11 +1,10 @@
 // Report EC dashboard
 //
-// While the bot and backend are being built, the dashboard runs on the sample
-// reports in sample-data.js. When the backend is ready, set USE_SAMPLE_DATA to
-// false and the same page will read from GET /reports and send updates with
-// PATCH /reports/{ref}.
+// The dashboard reads reports from the database through GET /reports and saves
+// staff updates with PATCH /reports/{ref}. Set USE_SAMPLE_DATA to true only to
+// show the offline sample reports in sample-data.js (for example with no internet).
 
-const USE_SAMPLE_DATA = true;
+const USE_SAMPLE_DATA = false;
 const API_BASE = "";            // empty = same server as FastAPI
 const REFRESH_SECONDS = 15;     // how often to check for new reports (API mode)
 const OVERDUE_HOURS = 48;       // no update for this long = overdue
@@ -34,6 +33,13 @@ const STATUSES = {
   team_assigned: "Team assigned",
   in_progress: "In progress",
   resolved: "Resolved",
+};
+
+// "seed" marks test reports loaded with seed_reports.py
+const CHANNELS = {
+  whatsapp: "WhatsApp",
+  ussd: "USSD",
+  seed: "Test data",
 };
 
 // Small line icons for each category (24 x 24)
@@ -185,6 +191,45 @@ function findReport(ref) {
   return state.reports.find((r) => r.ref === ref);
 }
 
+// ---------- Logged-in staff ----------
+
+// If the login has expired, the server answers 401: send the person back to the login page
+function goToLoginIfLoggedOut(response) {
+  if (response.status === 401) {
+    window.location.href = "/login";
+    return true;
+  }
+  return false;
+}
+
+function initialsFor(name) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const letters = parts.length > 1 ? parts[0][0] + parts[parts.length - 1][0] : name.slice(0, 2);
+  return letters.toUpperCase();
+}
+
+async function loadStaff() {
+  try {
+    const response = await fetch(`${API_BASE}/me`);
+    if (goToLoginIfLoggedOut(response)) return;
+    const staff = await response.json();
+    document.getElementById("user-name").textContent = staff.name;
+    document.getElementById("user-role").textContent = staff.role;
+    document.getElementById("user-initials").textContent = initialsFor(staff.name);
+  } catch (error) {
+    console.error(error);
+    document.getElementById("user-name").textContent = "Municipal staff";
+  }
+}
+
+async function logOut() {
+  try {
+    await fetch(`${API_BASE}/logout`, { method: "POST" });
+  } finally {
+    window.location.href = "/login";
+  }
+}
+
 // ---------- Loading data ----------
 
 async function loadReports() {
@@ -195,6 +240,7 @@ async function loadReports() {
   } else {
     try {
       const response = await fetch(`${API_BASE}/reports`);
+      if (goToLoginIfLoggedOut(response)) return;
       if (!response.ok) throw new Error(`Server replied ${response.status}`);
       rawReports = await response.json();
     } catch (error) {
@@ -299,7 +345,10 @@ function renderQueue() {
   const body = document.getElementById("queue-body");
 
   if (pageRows.length === 0) {
-    body.innerHTML = '<tr class="queue-empty"><td colspan="6">No reports match these filters.</td></tr>';
+    const message = mainReports().length
+      ? "No reports match these filters."
+      : "No reports yet. Reports that residents send on WhatsApp will appear here.";
+    body.innerHTML = `<tr class="queue-empty"><td colspan="6">${message}</td></tr>`;
   } else {
     body.innerHTML = pageRows
       .map((r) => {
@@ -472,7 +521,7 @@ function renderDetails() {
 
     ${photo}
 
-    <div class="section-label">Original report · ${escapeHtml(report.channel === "whatsapp" ? "WhatsApp" : report.channel)}</div>
+    <div class="section-label">Original report · ${escapeHtml(CHANNELS[report.channel] || report.channel)}</div>
     <p class="quote">“${escapeHtml(report.description)}”</p>
 
     <dl class="facts">
@@ -549,9 +598,10 @@ function openUpdateDialog(mode) {
   refreshDialogMessage();
 
   const residents = groupSize(report);
-  document.getElementById("dialog-note").textContent =
-    `This message goes to ${residents} resident${residents === 1 ? "" : "s"} on WhatsApp` +
-    (USE_SAMPLE_DATA ? " (simulated in this prototype; nothing is sent)." : ".");
+  const who = `${residents} resident${residents === 1 ? "" : "s"}`;
+  document.getElementById("dialog-note").textContent = USE_SAMPLE_DATA
+    ? `This message would go to ${who} on WhatsApp (sample mode: nothing is sent).`
+    : `The update is saved and this message is sent to ${who} on WhatsApp.`;
 
   dialog.showModal();
   (mode === "assign" ? teamSelect : statusSelect).focus();
@@ -594,9 +644,16 @@ async function submitUpdate(event) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status, team, message }),
       });
+      if (goToLoginIfLoggedOut(response)) return;
       if (!response.ok) throw new Error(`Server replied ${response.status}`);
+      const result = await response.json();
       await loadReports();
-      showToast(`${report.ref} updated and residents notified.`);
+      const sent = result.sent ?? 0;
+      const queued = result.queued ?? 0;
+      const delivery = queued
+        ? `${sent} sent, ${queued} could not be sent yet (saved in notifications).`
+        : `WhatsApp message sent to ${sent} resident(s).`;
+      showToast(`${report.ref} updated. ${delivery}`);
     }
     document.getElementById("update-dialog").close();
     renderAll();
@@ -752,6 +809,7 @@ function wireEvents() {
   });
 
   document.getElementById("export-btn").addEventListener("click", exportSnapshot);
+  document.getElementById("logout-btn").addEventListener("click", logOut);
 
   // Dialog
   const dialog = document.getElementById("update-dialog");
@@ -768,12 +826,15 @@ function wireEvents() {
 // ---------- Start ----------
 
 function start() {
-  document.getElementById("data-mode").textContent = USE_SAMPLE_DATA ? "Sample reports" : "Live test reports";
+  document.getElementById("notice-message").textContent = USE_SAMPLE_DATA
+    ? "Sample mode · Offline sample reports. Updates are not saved and no messages are sent."
+    : "Live reports from the Report EC database. Staff updates are saved and sent to residents on WhatsApp.";
 
   updateClock();
   setInterval(updateClock, 30000);
 
   wireEvents();
+  loadStaff();
   initMap();
   loadReports();
 

@@ -373,6 +373,11 @@ button, input, select, textarea {
   border-color: var(--brand);
 }
 
+.btn-small {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
 .btn-link {
   padding: 4px 6px;
   background: none;

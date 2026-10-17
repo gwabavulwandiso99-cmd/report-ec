@@ -21,7 +21,7 @@ urgency, with status updates sent back to residents on WhatsApp.
    - at the top: `from fastapi.staticfiles import StaticFiles`
    - at the very bottom: `app.mount("/dashboard", StaticFiles(directory="static", html=True), name="dashboard")`
 3. Start the server as usual: `uvicorn main:app --reload`
-4. Open http://127.0.0.1:8000/dashboard/ (keep the slash at the end).
+4. Open http://127.0.0.1:8000/login and sign in. See STAFF-LOGIN.md for creating accounts.
 
 The map tiles and fonts load from the internet, so the laptop needs a connection.
 
@@ -30,13 +30,14 @@ The map tiles and fonts load from the internet, so the laptop needs a connection
 At the top of `static/app.js`:
 
 ```js
-const USE_SAMPLE_DATA = true;
+const USE_SAMPLE_DATA = false;
 ```
 
-- `true`: the dashboard uses `sample-data.js`. "Post update" changes the data in
-  the browser only and shows a "simulated" message. Refreshing the page resets it.
-- `false`: the dashboard reads from `GET /reports` every 15 seconds and sends
-  updates with `PATCH /reports/{ref}`.
+- `false` (the default): the dashboard reads live reports from the database
+  every 15 seconds and saves updates with `PATCH /reports/{ref}`. See
+  DATABASE-SETUP.md.
+- `true`: offline sample mode, using `sample-data.js`. Nothing is saved. Only
+  use this as a backup if the internet or database is down during a demo.
 
 ## What the backend needs to provide (for the database and backend team)
 

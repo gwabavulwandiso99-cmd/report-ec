@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report EC · Staff login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- The login page has its own styles because the dashboard's files are
+       only available after logging in. Colours match styles.css. -->
+  <style>
+    :root {
+      --brand: #155e4e;
+      --brand-dark: #0e463a;
+      --brand-soft: #e4f0ea;
+      --bg: #f4f5f2;
+      --surface: #ffffff;
+      --border: #e2e5e0;
+      --text: #1b2420;
+      --muted: #5d6a63;
+      --critical: #b3261e;
+      --critical-soft: #fbe9e7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .notice {
+      padding: 9px 24px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 40px 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 36px 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 10px 40px rgba(20, 30, 25, 0.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--brand);
+    }
+
+    .brand-mark svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .intro {
+      margin: 0 0 24px;
+      color: var(--muted);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    label span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font: inherit;
+      color: inherit;
+      background: var(--surface);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-soft);
+    }
+
+    .error {
+      display: none;
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--critical-soft);
+      color: var(--critical);
+      font-size: 13px;
+    }
+
+    .error.is-visible {
+      display: block;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: var(--brand);
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--brand-dark);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    .help {
+      margin: 20px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="notice">Report EC · Municipal staff only</div>
+
+  <main>
+    <div class="card">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        </div>
+        <div>
+          <div class="brand-name">Report EC</div>
+          <div class="brand-sub">Nelson Mandela Bay · Municipal workspace</div>
+        </div>
+      </div>
+
+      <h1>Staff login</h1>
+      <p class="intro">Sign in to see and respond to residents’ reports.</p>
+
+      <form id="login-form" novalidate>
+        <div class="error" id="login-error" role="alert"></div>
+
+        <label>
+          <span>Work email</span>
+          <input type="email" id="email" autocomplete="username" required>
+        </label>
+
+        <label>
+          <span>Password</span>
+          <input type="password" id="password" autocomplete="current-password" required>
+        </label>
+
+        <button type="submit" id="login-btn">Sign in</button>
+      </form>
+
+      <p class="help">Accounts are created by the municipality’s system administrator. If you need access or have forgotten your password, contact the IT helpdesk.</p>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById("login-form");
+    const errorBox = document.getElementById("login-error");
+    const button = document.getElementById("login-btn");
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.classList.add("is-visible");
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      errorBox.classList.remove("is-visible");
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        showError("Please enter your email and password.");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Signing in…";
+
+      try {
+        const response = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (response.ok) {
+          window.location.href = "/dashboard/";
+          return;
+        }
+
+        const data = await response.json().catch(() => ({}));
+        showError(data.detail || "Login failed. Please try again.");
+      } catch (error) {
+        showError("Could not reach the server. Check that it is running.");
+      }
+
+      button.disabled = false;
+      button.textContent = "Sign in";
+    });
+  </script>
+</body>
+</html>

@@ -1,52 +1,96 @@
-import base64
 import os
-import re
-import secrets
 from datetime import datetime, timezone
+import re
 from typing import Literal, Optional
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import Response
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from starlette.middleware.sessions import SessionMiddleware
 
+from auth import LoginError, verify_credentials
 from db import supabase
 from notify import send_whatsapp
 
 load_dotenv()
+
+SESSION_SECRET = os.getenv("SESSION_SECRET")
+if not SESSION_SECRET:
+    raise RuntimeError("SESSION_SECRET is missing from .env")
+
+# Set COOKIE_SECURE=1 in .env once the site runs on https (for example on Render)
+COOKIE_SECURE = os.getenv("COOKIE_SECURE") == "1"
 
 app = FastAPI(title="Report EC")
 
 # ---------------------------------------------------------------------------
 # Login. The dashboard shows exact locations, photos and resident messages, and
 # PATCH sends WhatsApp messages, so none of it may be open to the internet.
-# The browser shows a login box and then remembers it for this site.
-# Use HTTPS when this is deployed: Basic auth sends the password in clear text.
+# Staff sign in on /login with their own account (see add_staff.py).
+# The WhatsApp webhook must NOT be added here, or Meta can't deliver messages.
 # ---------------------------------------------------------------------------
-DASHBOARD_USER = os.getenv("DASHBOARD_USER", "admin")
-DASHBOARD_PASSWORD = os.getenv("DASHBOARD_PASSWORD")
-if not DASHBOARD_PASSWORD:
-    raise RuntimeError("DASHBOARD_PASSWORD is missing from .env")
-
-PROTECTED_PREFIXES = ("/dashboard", "/reports")
+STAFF_ONLY_PATHS = ("/dashboard", "/reports", "/me")
 
 
 @app.middleware("http")
-async def require_login(request: Request, call_next):
-    if request.url.path.startswith(PROTECTED_PREFIXES):
-        allowed = False
-        header = request.headers.get("authorization", "")
-        if header.lower().startswith("basic "):
-            try:
-                user, _, password = base64.b64decode(header[6:]).decode().partition(":")
-                allowed = secrets.compare_digest(user.encode(), DASHBOARD_USER.encode()) and \
-                    secrets.compare_digest(password.encode(), DASHBOARD_PASSWORD.encode())
-            except Exception:
-                allowed = False
-        if not allowed:
-            return Response(status_code=401, headers={"WWW-Authenticate": 'Basic realm="Report EC"'})
+async def require_staff_login(request: Request, call_next):
+    path = request.url.path
+    if path.startswith(STAFF_ONLY_PATHS) and not request.session.get("staff"):
+        if path.startswith("/dashboard"):
+            return RedirectResponse("/login", status_code=303)
+        return JSONResponse({"detail": "Please log in."}, status_code=401)
     return await call_next(request)
+
+
+# Added after the login check so it runs first and the session is ready for it
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=SESSION_SECRET,
+    max_age=8 * 60 * 60,  # staff stay logged in for one working day
+    same_site="lax",
+    https_only=COOKIE_SECURE,
+)
+
+
+class LoginDetails(BaseModel):
+    email: str
+    password: str
+
+
+@app.get("/login")
+def login_page(request: Request):
+    if request.session.get("staff"):
+        return RedirectResponse("/dashboard/", status_code=303)
+    return FileResponse("static/login.html")
+
+
+@app.post("/login")
+def login(details: LoginDetails, request: Request):
+    email = details.email.strip().lower()
+    if not email or not details.password:
+        raise HTTPException(status_code=400, detail="Please enter your email and password.")
+
+    try:
+        staff = verify_credentials(email, details.password)
+    except LoginError as error:
+        raise HTTPException(status_code=401, detail=str(error))
+
+    request.session.clear()
+    request.session["staff"] = staff
+    return {"ok": True, "name": staff["name"]}
+
+
+@app.post("/logout")
+def logout(request: Request):
+    request.session.clear()
+    return {"ok": True}
+
+
+@app.get("/me")
+def current_staff(request: Request):
+    return request.session["staff"]
 
 
 # ---------------------------------------------------------------------------
@@ -119,7 +163,9 @@ class ReportUpdate(BaseModel):
 
 
 @app.patch("/reports/{ref}")
-def update_report(ref: str, update: ReportUpdate):
+def update_report(ref: str, update: ReportUpdate, request: Request):
+    staff = request.session["staff"]
+
     found = supabase.table("reports").select("id, duplicate_of").eq("ref", ref).execute().data
     if not found:
         raise HTTPException(status_code=404, detail="Report not found")
@@ -146,11 +192,13 @@ def update_report(ref: str, update: ReportUpdate):
         "first_response_at", "null"
     ).execute()
 
+    # The staff member's name goes into the history, so every update can be traced
     team_text = update.team or "No team assigned"
     supabase.table("report_updates").insert(
         {
             "report_id": master_id,
-            "text": f"{STATUS_LABELS[update.status]} · {team_text}. Message sent: “{update.message}”",
+            "text": f"{STATUS_LABELS[update.status]} · {team_text} · by {staff['name']}. "
+                    f"Message sent: “{update.message}”",
         }
     ).execute()
 
@@ -180,5 +228,5 @@ def update_report(ref: str, update: ReportUpdate):
 
 
 # Serves the dashboard at http://127.0.0.1:8000/dashboard/
-# Keep this line at the bottom so it doesn't hide the API routes above.
+# Keep this line at the bottom so it doesn't hide the routes above.
 app.mount("/dashboard", StaticFiles(directory="static", html=True), name="dashboard")
