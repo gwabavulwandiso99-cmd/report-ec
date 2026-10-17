@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report EC · Municipal dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet for the map (OpenStreetMap tiles, no API key needed) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">Report EC</div>
+        <div class="brand-tag">Community issue reporter</div>
+      </div>
+    </div>
+
+    <div class="municipality">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 10h18"/><path d="M12 3l9 7H3l9-7z"/><path d="M5 10v8M9 10v8M15 10v8M19 10v8"/><path d="M3 21h18"/></svg>
+      <div>
+        <div class="municipality-name">Raymond Mhlaba</div>
+        <div class="municipality-sub">Eastern Cape · Municipal workspace</div>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <span class="pill pill-demo">Demo workspace</span>
+      <div class="user">
+        <div class="avatar">SC</div>
+        <div>
+          <div class="user-name">Nelson Mandela Bay</div>
+          <div class="user-role">Service coordinator</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Honest prototype notice -->
+  <div class="notice">
+    <span class="notice-text">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M10 3v6L4.5 18.5A1.6 1.6 0 0 0 6 21h12a1.6 1.6 0 0 0 1.5-2.5L14 9V3"/></svg>
+      <span>Hackathon prototype · <span id="data-mode">Sample reports</span> and simulated notifications. No municipal services or messaging channels are connected.</span>
+    </span>
+    <span id="clock"></span>
+  </div>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="nav-label">Workspace</div>
+      <a href="#" class="nav-item is-active" data-nav="overview">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Overview
+      </a>
+      <a href="#" class="nav-item" data-nav="all">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M3 13h5l1.5 3h5L16 13h5"/><path d="M5.5 5h13L21 13v6H3v-6l2.5-8z"/></svg>
+        All reports <span class="nav-count" id="nav-all-count">0</span>
+      </a>
+      <a href="#" class="nav-item" data-nav="overdue">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3h16l-2-3V9a6 6 0 0 0-6-6z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+        Escalations <span class="nav-count nav-count-alert" id="nav-overdue-count">0</span>
+      </a>
+      <span class="nav-item is-disabled" title="Planned after the hackathon">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14a6.5 6.5 0 0 1 3.5 6"/></svg>
+        Teams &amp; wards <span class="soon">Soon</span>
+      </span>
+      <span class="nav-item is-disabled" title="Planned after the hackathon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+        Insights <span class="soon">Soon</span>
+      </span>
+
+      <div class="nav-label nav-label-gap">Reporting channels</div>
+      <div class="channel">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19l-4 1z"/></svg>
+        WhatsApp <span class="channel-tag">Demo</span>
+      </div>
+      <div class="channel">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></svg>
+        USSD <span class="channel-tag">Planned</span>
+      </div>
+
+      <div class="privacy-card">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        <strong>Private by design.</strong>
+        <p>Track the issue, not the person. Residents’ phone numbers never reach this dashboard.</p>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1>Every report. A shared responsibility.</h1>
+          <p>Service delivery overview · Gqeberha communities</p>
+        </div>
+        <button class="btn btn-outline" id="export-btn" type="button">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M4 20h16"/></svg>
+          Export snapshot
+        </button>
+      </div>
+
+      <!-- Stat cards -->
+      <section class="stats">
+        <div class="stat-card">
+          <div class="stat-top"><span>Active issues</span>
+            <svg class="icon icon-brand" viewBox="0 0 24 24"><path d="M3 13h5l1.5 3h5L16 13h5"/><path d="M5.5 5h13L21 13v6H3v-6l2.5-8z"/></svg>
+          </div>
+          <div class="stat-value"><strong id="stat-active">0</strong><span id="stat-active-sub" class="stat-sub sub-brand"></span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><span>Critical priority</span>
+            <svg class="icon icon-critical" viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19L12 3z"/><path d="M12 10v4"/><path d="M12 17.5v.5"/></svg>
+          </div>
+          <div class="stat-value"><strong id="stat-critical">0</strong><span class="stat-sub sub-critical">Needs urgent action</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><span>Overdue updates</span>
+            <svg class="icon icon-high" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M5 3L2.5 5.5M19 3l2.5 2.5"/></svg>
+          </div>
+          <div class="stat-value"><strong id="stat-overdue">0</strong><span class="stat-sub sub-high">No update for 48 hours</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><span>Average response time</span>
+            <svg class="icon icon-brand" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+          </div>
+          <div class="stat-value"><strong id="stat-response">–</strong><span class="stat-sub sub-brand">Report to first update</span></div>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <div class="col-main">
+
+          <!-- Map -->
+          <section class="card map-card">
+            <div class="card-head">
+              <h2>
+                <svg class="icon" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
+                Community report map
+              </h2>
+              <button class="btn btn-link" id="reset-view-btn" type="button">Show all areas</button>
+            </div>
+
+            <div class="filters">
+              <label class="filter">
+                <span>Type</span>
+                <select id="filter-category">
+                  <option value="all">All categories</option>
+                  <option value="water_leak">Water leak</option>
+                  <option value="no_water">No water</option>
+                  <option value="power_outage">Power outage</option>
+                  <option value="pothole">Pothole</option>
+                  <option value="streetlight">Streetlight</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+              <label class="filter">
+                <span>Priority</span>
+                <select id="filter-priority">
+                  <option value="all">All priorities</option>
+                  <option value="critical">Critical</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                </select>
+              </label>
+              <label class="filter">
+                <span>Status</span>
+                <select id="filter-status">
+                  <option value="active">Active</option>
+                  <option value="all">All</option>
+                  <option value="overdue">Overdue (48h+)</option>
+                  <option value="received">Received</option>
+                  <option value="awaiting_dispatch">Awaiting dispatch</option>
+                  <option value="team_assigned">Team assigned</option>
+                  <option value="in_progress">In progress</option>
+                  <option value="resolved">Resolved</option>
+                </select>
+              </label>
+              <button class="btn btn-link" id="clear-filters-btn" type="button">Clear filters</button>
+            </div>
+
+            <div id="map" class="map"></div>
+
+            <div class="map-foot">
+              <div class="legend">
+                <span><i class="dot dot-critical"></i>Critical</span>
+                <span><i class="dot dot-high"></i>High</span>
+                <span><i class="dot dot-medium"></i>Medium</span>
+                <span><i class="dot dot-resolved"></i>Resolved</span>
+              </div>
+              <span class="map-note">Numbered pins = grouped reports · Sample locations</span>
+            </div>
+          </section>
+
+          <!-- Issue queue -->
+          <section class="card queue-card" id="queue">
+            <div class="card-head">
+              <h2>Issue queue <span class="count-pill" id="queue-count">0</span></h2>
+              <label class="search">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                <input type="search" id="search-input" placeholder="Search ticket, street or ward">
+              </label>
+            </div>
+
+            <table class="queue">
+              <thead>
+                <tr>
+                  <th>Ticket / category</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Last update</th>
+                  <th>Reports</th>
+                  <th aria-label="Open"></th>
+                </tr>
+              </thead>
+              <tbody id="queue-body"></tbody>
+            </table>
+
+            <div class="queue-foot">
+              <span id="queue-summary"></span>
+              <div class="pager">
+                <button type="button" class="pager-btn" id="prev-page" aria-label="Previous page">‹</button>
+                <span id="page-label">1 / 1</span>
+                <button type="button" class="pager-btn" id="next-page" aria-label="Next page">›</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Details panel (filled by app.js) -->
+        <aside class="card details" id="details"></aside>
+      </div>
+    </main>
+  </div>
+
+  <!-- Post update dialog -->
+  <dialog id="update-dialog" class="dialog">
+    <form method="dialog" id="update-form">
+      <div class="dialog-head">
+        <h3 id="dialog-title">Post update</h3>
+        <button type="button" class="icon-btn" id="dialog-close" aria-label="Close">×</button>
+      </div>
+
+      <label class="field">
+        <span>Status</span>
+        <select id="update-status">
+          <option value="received">Received</option>
+          <option value="awaiting_dispatch">Awaiting dispatch</option>
+          <option value="team_assigned">Team assigned</option>
+          <option value="in_progress">In progress</option>
+          <option value="resolved">Resolved</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Responsible team</span>
+        <select id="update-team">
+          <option>Water &amp; sanitation</option>
+          <option>Electricity</option>
+          <option>Roads &amp; stormwater</option>
+          <option>Waste management</option>
+          <option>Customer care</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Message to residents</span>
+        <textarea id="update-message" rows="4"></textarea>
+      </label>
+
+      <p class="dialog-note" id="dialog-note"></p>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-outline" id="dialog-cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="dialog-send">Send update</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="sample-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
