@@ -1,0 +1,23 @@
+{
+  "_about": "Report lifecycle from the Team Development Guide, plus how the statuses already used by the dashboard map onto it. Only the backend and the authorised verification workflow change a status; the AI only reads it.",
+  "lifecycle": [
+    "submitted",
+    "acknowledged",
+    "in_progress",
+    "pending_verification",
+    "verified_resolved",
+    "disputed",
+    "reopened"
+  ],
+  "legacy_aliases": {
+    "received": "submitted",
+    "awaiting_dispatch": "acknowledged",
+    "team_assigned": "acknowledged",
+    "in_progress": "in_progress",
+    "resolved": "pending_verification"
+  },
+  "_legacy_note": "The dashboard's 'resolved' is treated as a municipal resolution CLAIM (pending_verification), not as a verified resolution, because nobody in the community has confirmed it yet.",
+  "closed_statuses": ["verified_resolved"],
+  "verification_open_statuses": ["pending_verification", "disputed"],
+  "disputed_statuses": ["disputed", "reopened"]
+}

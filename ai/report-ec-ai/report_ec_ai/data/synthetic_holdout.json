@@ -1,0 +1,37 @@
+{
+  "_notice": "SYNTHETIC HOLD-OUT EXAMPLES. Written after the rules were finished and run ONCE without changing any rules afterwards, to get a less optimistic picture than synthetic_eval.json (which was used while developing). Still written by the development team, so still NOT real-world evidence. isiXhosa examples need checking by a fluent speaker.",
+  "examples": [
+    {"id": "h-en-01", "language": "en", "text": "Main line burst on Ntshekisa Road, water everywhere", "expected_category": "water", "expected_priority": ["medium", "high"]},
+    {"id": "h-en-02", "language": "en", "text": "Our taps have been dry since Sunday", "expected_category": "water", "expected_priority": ["medium", "high"]},
+    {"id": "h-en-03", "language": "en", "text": "Meter box leaking in front of my yard", "expected_category": "water", "expected_priority": ["low", "medium"]},
+    {"id": "h-en-04", "language": "en", "text": "A cable snapped during the storm and is hanging over the pavement", "expected_category": "electricity", "expected_priority": ["high", "critical"]},
+    {"id": "h-en-05", "language": "en", "text": "The whole of Section 3 has been in the dark for two days", "expected_category": "electricity", "expected_priority": ["medium", "high"]},
+    {"id": "h-en-06", "language": "en", "text": "Lamp pole flickering on and off at night", "expected_category": "electricity", "expected_priority": ["low"]},
+    {"id": "h-en-07", "language": "en", "text": "The tar is breaking up and there are craters all along the bus route", "expected_category": "roads", "expected_priority": ["medium", "high"]},
+    {"id": "h-en-08", "language": "en", "text": "Speed hump needed outside the school, cars drive too fast", "expected_category": "roads", "expected_priority": ["low", "medium"]},
+    {"id": "h-en-09", "language": "en", "text": "Drain outside the shops is overflowing with dirty water and it stinks", "expected_category": "sanitation", "expected_priority": ["medium", "high"]},
+    {"id": "h-en-10", "language": "en", "text": "Manhole lid stolen on the corner, someone could fall in", "expected_category": "sanitation", "expected_priority": ["high", "critical"]},
+    {"id": "h-en-11", "language": "en", "text": "Refuse bags piling up at the corner and dogs are tearing them open", "expected_category": "waste", "expected_priority": ["low", "medium"]},
+    {"id": "h-en-12", "language": "en", "text": "Someone dumped old tyres and mattresses by the river", "expected_category": "waste", "expected_priority": ["low", "medium"]},
+    {"id": "h-en-13", "language": "en", "text": "Bus shelter roof has collapsed", "expected_category": "public_infrastructure", "expected_priority": ["low", "medium"]},
+    {"id": "h-en-14", "language": "en", "text": "Can someone come and check, it is not good here", "expected_category": "other", "expected_priority": [null]},
+    {"id": "h-en-15", "language": "en", "text": "Flooding in the street, water entering houses after the rain", "expected_category": "roads", "expected_priority": ["high"]},
+
+    {"id": "h-xh-01", "language": "xh", "text": "Umbhobho uqhekekile phambi kwevenkile", "expected_category": "water", "expected_priority": ["medium"]},
+    {"id": "h-xh-02", "language": "xh", "text": "Asinamanzi eKwaDwesi kangangeveki", "expected_category": "water", "expected_priority": ["medium", "high"]},
+    {"id": "h-xh-03", "language": "xh", "text": "Umbane uqhawukile, yonke indawo isebumnyameni", "expected_category": "electricity", "expected_priority": ["medium", "high"]},
+    {"id": "h-xh-04", "language": "xh", "text": "Intambo yombane ixhomekile phezu kwendlela", "expected_category": "electricity", "expected_priority": ["high", "critical"]},
+    {"id": "h-xh-05", "language": "xh", "text": "Indlela inemingxuma emininzi", "expected_category": "roads", "expected_priority": ["medium"]},
+    {"id": "h-xh-06", "language": "xh", "text": "Amanzi amdaka angena ezindlwini", "expected_category": "sanitation", "expected_priority": ["high"]},
+    {"id": "h-xh-07", "language": "xh", "text": "Inkunkuma ilahlwe ecaleni kwesikolo", "expected_category": "waste", "expected_priority": ["low", "medium"]},
+    {"id": "h-xh-08", "language": "xh", "text": "Izibane zesitrato azisebenzi kwiveki yonke", "expected_category": "electricity", "expected_priority": ["low", "medium"]},
+    {"id": "h-xh-09", "language": "xh", "text": "Ipaki yabantwana yonakele", "expected_category": "public_infrastructure", "expected_priority": ["low", "medium"]},
+    {"id": "h-xh-10", "language": "xh", "text": "Ndicela uncedo", "expected_category": "other", "expected_priority": [null]},
+
+    {"id": "h-mx-01", "language": "mixed", "text": "Ipipe iqhekekile kwi-main road", "expected_category": "water", "expected_priority": ["medium", "high"]},
+    {"id": "h-mx-02", "language": "mixed", "text": "Siphila without electricity iintsuku ezine", "expected_category": "electricity", "expected_priority": ["high"]},
+    {"id": "h-mx-03", "language": "mixed", "text": "Kukho manhole evulekileyo near the creche", "expected_category": "sanitation", "expected_priority": ["high", "critical"]},
+    {"id": "h-mx-04", "language": "mixed", "text": "Garbage ayikhange icollectwe kule veki", "expected_category": "waste", "expected_priority": ["low"]},
+    {"id": "h-mx-05", "language": "mixed", "text": "Iirobots azisebenzi at the four-way stop", "expected_category": "roads", "expected_priority": ["medium", "high"]}
+  ]
+}
