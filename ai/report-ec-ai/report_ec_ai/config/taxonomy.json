@@ -1,0 +1,87 @@
+{
+  "_about": "Report EC complaint taxonomy. Parent categories come from the Member 6 brief. Subcategories are ours. 'legacy_category' is the value used by the current dashboard and reports table (water_leak, no_water, power_outage, pothole, streetlight, other) so the two can work together until the database team decides on the final list. 'base_priority' is the starting point before context is considered (null = not enough information to suggest one).",
+  "version": "2026.10-v1",
+  "categories": {
+    "water": {
+      "label_key": "category.water",
+      "subcategories": {
+        "no_supply":     {"requires_any": ["no_water"], "base_priority": "medium", "legacy_category": "no_water"},
+        "burst_or_leak": {"requires_any": ["leak", "burst", "pipe"], "base_priority": "medium", "legacy_category": "water_leak"},
+        "general":       {"requires_any": [], "base_priority": "medium", "legacy_category": "other"}
+      }
+    },
+    "electricity": {
+      "label_key": "category.electricity",
+      "subcategories": {
+        "exposed_hazard": {"requires_any": ["wire_hazard", "sparking"], "base_priority": "high", "legacy_category": "other"},
+        "streetlight":    {"requires_any": ["streetlight"], "base_priority": "low", "legacy_category": "streetlight"},
+        "outage":         {"requires_any": ["outage"], "base_priority": "medium", "legacy_category": "power_outage"},
+        "general":        {"requires_any": [], "base_priority": "medium", "legacy_category": "other"}
+      }
+    },
+    "roads": {
+      "label_key": "category.roads",
+      "subcategories": {
+        "pothole":        {"requires_any": ["pothole"], "base_priority": "medium", "legacy_category": "pothole"},
+        "traffic_signal": {"requires_any": ["traffic_light"], "base_priority": "medium", "legacy_category": "other"},
+        "stormwater":     {"requires_any": ["stormwater"], "base_priority": "medium", "legacy_category": "other"},
+        "general":        {"requires_any": [], "base_priority": "low", "legacy_category": "other"}
+      }
+    },
+    "sanitation": {
+      "label_key": "category.sanitation",
+      "subcategories": {
+        "open_manhole":    {"requires_any": ["manhole_open"], "base_priority": "high", "legacy_category": "other"},
+        "sewage_overflow": {"requires_any": ["sewage"], "base_priority": "medium", "legacy_category": "other"},
+        "toilet":          {"requires_any": ["toilet"], "base_priority": "medium", "legacy_category": "other"},
+        "general":         {"requires_any": [], "base_priority": "medium", "legacy_category": "other"}
+      }
+    },
+    "waste": {
+      "label_key": "category.waste",
+      "subcategories": {
+        "illegal_dumping": {"requires_any": ["dumping"], "base_priority": "low", "legacy_category": "other"},
+        "uncollected":     {"requires_any": ["not_collected"], "base_priority": "low", "legacy_category": "other"},
+        "general":         {"requires_any": [], "base_priority": "low", "legacy_category": "other"}
+      }
+    },
+    "public_infrastructure": {
+      "label_key": "category.public_infrastructure",
+      "subcategories": {
+        "general": {"requires_any": [], "base_priority": "low", "legacy_category": "other"}
+      }
+    },
+    "other": {
+      "label_key": "category.other",
+      "subcategories": {
+        "general": {"requires_any": [], "base_priority": null, "legacy_category": "other"}
+      }
+    }
+  },
+  "clarification_menu": [
+    {"category": "water", "subcategory": null},
+    {"category": "electricity", "subcategory": null},
+    {"category": "roads", "subcategory": null},
+    {"category": "sanitation", "subcategory": null},
+    {"category": "waste", "subcategory": null},
+    {"category": "electricity", "subcategory": "streetlight", "label_key": "category.streetlight"},
+    {"category": "public_infrastructure", "subcategory": null},
+    {"category": "other", "subcategory": null}
+  ],
+  "legacy_to_taxonomy": {
+    "water_leak":   {"category": "water", "subcategory": "burst_or_leak"},
+    "no_water":     {"category": "water", "subcategory": "no_supply"},
+    "power_outage": {"category": "electricity", "subcategory": "outage"},
+    "pothole":      {"category": "roads", "subcategory": "pothole"},
+    "streetlight":  {"category": "electricity", "subcategory": "streetlight"},
+    "other":        {"category": "other", "subcategory": "general"}
+  },
+  "priority_levels": ["low", "medium", "high", "critical"],
+  "legacy_urgency": {
+    "_about": "The current dashboard only knows critical/high/medium. Until 'low' is added there, low is sent as medium. Change this mapping when the dashboard supports low.",
+    "critical": "critical",
+    "high": "high",
+    "medium": "medium",
+    "low": "medium"
+  }
+}

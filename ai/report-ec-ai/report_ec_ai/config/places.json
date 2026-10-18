@@ -1,0 +1,39 @@
+{
+  "_about": "Areas the chatbot can recognise in a message. This is NOT a complete list of places in the municipality: any location the resident types is still accepted and kept as written. Ward numbers are never guessed from an area, because areas and wards do not line up one-to-one.",
+  "pilot_municipality": "Nelson Mandela Bay",
+  "max_ward": 60,
+  "eastern_cape_bounds": {"min_lat": -34.6, "max_lat": -30.0, "min_lng": 22.5, "max_lng": 30.3},
+  "municipalities": {
+    "Nelson Mandela Bay": {
+      "aliases": ["nelson mandela bay", "nmb", "nmbm", "gqeberha", "port elizabeth", "ibhayi"],
+      "areas": {
+        "Zwide": ["zwide"],
+        "KwaZakhele": ["kwazakhele", "kwa zakhele", "zakhele"],
+        "New Brighton": ["new brighton", "kwaford"],
+        "Motherwell": ["motherwell"],
+        "KwaDwesi": ["kwadwesi", "kwa dwesi", "dwesi"],
+        "Korsten": ["korsten"],
+        "Walmer Township": ["walmer township", "gqebera"],
+        "Walmer": ["walmer"],
+        "Summerstrand": ["summerstrand"],
+        "Gelvandale": ["gelvandale"],
+        "Bethelsdorp": ["bethelsdorp"],
+        "Missionvale": ["missionvale"],
+        "Veeplaas": ["veeplaas"],
+        "Joe Slovo": ["joe slovo"],
+        "Booysen Park": ["booysen park", "booysens park"],
+        "Helenvale": ["helenvale"],
+        "Schauderville": ["schauderville"],
+        "North End": ["north end"],
+        "Algoa Park": ["algoa park"],
+        "Chatty": ["chatty"],
+        "Wells Estate": ["wells estate"],
+        "Kariega": ["kariega", "uitenhage"],
+        "KwaNobuhle": ["kwanobuhle", "kwa nobuhle"],
+        "Despatch": ["despatch"],
+        "Colchester": ["colchester"],
+        "Humewood": ["humewood"]
+      }
+    }
+  }
+}
