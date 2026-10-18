@@ -1,0 +1,291 @@
+{
+  "_about": "Domain vocabulary for Report EC. 'en' and 'xh' hold whole words or phrases. 'xh_stems' hold isiXhosa word stems that are matched after common prefixes are removed (for example 'wamanzi' -> 'amanzi' -> 'manzi'). This is a small municipal-services word list, NOT a model of the isiXhosa language. Every isiXhosa entry must be checked by a fluent speaker; see docs/LANGUAGE_REVIEW.md.",
+  "version": "2026.10-v1",
+
+  "complaint_concepts": [
+    {"id": "water", "kind": "category", "category": "water", "weight": 1.0,
+     "en": ["water", "tap", "taps", "water supply", "fire hydrant", "hydrant", "reservoir", "water tank", "jojo tank", "standpipe", "borehole"],
+     "xh": ["amanzi", "itephu", "iitephu"],
+     "xh_stems": ["manzi", "mpompo"]},
+
+    {"id": "pipe", "kind": "category", "category": "water", "weight": 1.0,
+     "en": ["pipe", "pipes", "water pipe", "water pipes", "water main", "main pipe", "pipeline", "burst pipe", "pipe burst", "broken pipe", "cracked pipe", "burst pipes", "broken pipes"],
+     "xh": ["umbhobho", "imibhobho"],
+     "xh_stems": ["bhobho", "mbhobho"]},
+
+    {"id": "leak", "kind": "category", "category": "water", "weight": 1.0,
+     "en": ["leak", "leaks", "leaking", "leaked", "leakage", "water leak", "water leaking", "dripping", "drip", "gushing", "spraying", "running water", "water running", "water flowing", "wasting water", "water wastage", "water is wasting"],
+     "xh": ["iyavuza", "ayavuza", "uyavuza", "liyavuza", "kuyavuza", "ivuzayo", "ovuzayo", "avuzayo", "evuzayo"],
+     "xh_stems": ["vuza", "vuzil"]},
+
+    {"id": "burst", "kind": "category", "category": "water", "weight": 0.5,
+     "en": ["burst", "bursted", "busted"],
+     "xh": ["ogqabhukileyo", "uqhekekile"],
+     "xh_stems": ["gqabhuk", "qhekek"]},
+
+    {"id": "no_water", "kind": "category", "category": "water", "weight": 2.0, "flags": ["no_supply"],
+     "en": ["no water", "without water", "water is off", "water off", "water cut", "water cuts", "water outage", "water interruption", "no supply", "dry taps", "taps are dry", "taps dry", "no running water"],
+     "xh": ["akukho manzi", "amanzi awakho", "awakho amanzi", "asinamanzi"]},
+
+    {"id": "electricity", "kind": "category", "category": "electricity", "weight": 1.0,
+     "en": ["electricity", "electric", "electrical", "power", "eskom", "prepaid electricity", "electricity meter", "transformer", "substation", "mini substation", "electricity box", "power box"],
+     "xh": ["umbane", "mbane", "wombane", "zombane", "lombane", "yombane", "kombane", "ngombane", "nombane"]},
+
+    {"id": "outage", "kind": "category", "category": "electricity", "weight": 2.0, "flags": ["outage"],
+     "en": ["power outage", "no power", "no electricity", "blackout", "power cut", "power failure", "electricity cut", "lights are off", "lights off", "no lights", "without electricity", "without power", "power is off", "electricity is off", "outage"],
+     "xh": ["akukho mbane", "umbane awukho", "awukho umbane", "asinambane", "umbane awusebenzi"]},
+
+    {"id": "cable", "kind": "category", "category": "electricity", "weight": 0.5,
+     "en": ["cable", "cables", "wire", "wires", "power line", "power lines", "electric wire", "electric wires", "electrical wire", "electricity pole", "power pole", "pole"],
+     "xh": ["intambo", "iintambo", "ezintambo"],
+     "xh_stems": ["ntambo"]},
+
+    {"id": "wire_hazard", "kind": "category", "category": "electricity", "weight": 2.0, "flags": ["electrical_hazard"],
+     "en": ["live wire", "live wires", "exposed wire", "exposed wires", "exposed cable", "exposed cables", "hanging wire", "hanging wires", "hanging cable", "hanging cables", "fallen cable", "fallen wire", "fallen power line", "wires hanging", "cables hanging", "illegal connection", "illegal connections", "izinyoka", "electrocuted", "electrocution", "electric shock", "got shocked"]},
+
+    {"id": "sparking", "kind": "category", "category": "electricity", "weight": 1.0, "flags": ["electrical_hazard", "fire"],
+     "en": ["sparking", "sparks", "spark", "sparked", "arcing", "short circuit", "transformer exploded", "exploded transformer"],
+     "xh": ["iintlantsi", "intlantsi"],
+     "xh_stems": ["ntlantsi"]},
+
+    {"id": "streetlight", "kind": "category", "category": "electricity", "weight": 2.0, "flags": ["streetlight"],
+     "en": ["streetlight", "streetlights", "street light", "street lights", "street lamp", "street lamps", "lamp post", "lamppost", "high mast", "high mast light", "high mast lights", "apollo", "apollo light", "apollo lights", "mast light"],
+     "xh": ["isibane sesitrato", "izibane zesitrato", "isibane", "izibane", "iapollo"],
+     "xh_stems": ["sibane", "zibane"]},
+
+    {"id": "roads", "kind": "category", "category": "roads", "weight": 1.0,
+     "en": ["road", "roads", "street", "streets", "tar", "tarred road", "gravel road", "sidewalk", "pavement", "speed hump", "road sign", "kerb", "curb", "culvert"],
+     "xh": ["indlela", "iindlela", "endleleni", "isitrato", "esitratweni"],
+     "xh_stems": ["ndlel", "sitrat"]},
+
+    {"id": "pothole", "kind": "category", "category": "roads", "weight": 2.0, "flags": ["pothole"],
+     "en": ["pothole", "potholes", "pot hole", "pot holes", "hole in the road", "holes in the road", "big hole", "deep hole", "sinkhole", "sink hole"],
+     "xh": ["umngxuma", "imingxuma"],
+     "xh_stems": ["ngxuma", "mngxuma"]},
+
+    {"id": "traffic_light", "kind": "category", "category": "roads", "weight": 1.5, "flags": ["traffic_signal"],
+     "en": ["traffic light", "traffic lights", "robot", "robots", "traffic signal", "traffic signals", "stop sign"],
+     "xh": ["irobhothi", "iirobhothi"],
+     "xh_stems": ["robhothi"]},
+
+    {"id": "stormwater", "kind": "category", "category": "roads", "weight": 1.0,
+     "en": ["stormwater", "storm water", "stormwater drain", "storm drain", "flooded road", "road flooding"]},
+
+    {"id": "busy_road", "kind": "context", "flags": ["busy_road"],
+     "en": ["busy road", "main road", "highway", "freeway", "intersection", "traffic", "taxis", "taxi route", "bus route", "cars swerve", "cars swerving", "cars have to swerve", "n2"],
+     "xh": ["iiteksi", "iimoto", "indlela enkulu", "indlela ephambili"],
+     "xh_stems": ["teksi"]},
+
+    {"id": "sewage", "kind": "category", "category": "sanitation", "weight": 2.0, "flags": ["sewage"],
+     "en": ["sewage", "sewer", "sewerage", "sewer line", "raw sewage", "faeces", "feces", "human waste", "poo", "waste water", "wastewater", "septic tank", "sewage spill", "sewage leak"],
+     "xh": ["ilindle", "amalindle", "amanzi amdaka", "amanzi angcolileyo"],
+     "xh_stems": ["lindle"]},
+
+    {"id": "manhole_open", "kind": "category", "category": "sanitation", "weight": 1.5, "flags": ["open_manhole"],
+     "en": ["open manhole", "manhole is open", "manhole cover missing", "missing manhole cover", "uncovered manhole", "manhole without cover", "stolen manhole cover", "no manhole cover"]},
+
+    {"id": "manhole", "kind": "category", "category": "sanitation", "weight": 1.0,
+     "en": ["manhole", "manholes", "manhole cover"]},
+
+    {"id": "toilet", "kind": "category", "category": "sanitation", "weight": 1.5, "flags": ["toilet"],
+     "en": ["toilet", "toilets", "bucket toilet", "pit toilet", "chemical toilet", "flush toilet", "portable toilet", "public toilet", "latrine"],
+     "xh": ["indlu yangasese", "izindlu zangasese", "ithoyilethi", "itoyilethi"],
+     "xh_stems": ["ngasese", "thoyilethi", "toyilethi"]},
+
+    {"id": "overflow", "kind": "category", "category": "sanitation", "weight": 0.5, "flags": ["overflow"],
+     "en": ["overflowing", "overflow", "overflowed", "spilling", "spill", "blocked", "blockage", "blocked drain", "drain", "drains", "backing up", "smells", "smell", "stinks", "stinking", "stench", "bad smell"],
+     "xh": ["iyaphuphuma", "kuyanuka", "ivumba"],
+     "xh_stems": ["phuphum", "vingcek", "nuka", "vumba"]},
+
+    {"id": "flooding", "kind": "context", "flags": ["flooding"],
+     "en": ["flooding", "flooded", "flood", "floods", "water in the house", "water into the house", "water inside the house", "water in houses", "flowing into houses", "into our houses", "into the houses", "into the yard", "into yards", "washing away"],
+     "xh": ["izikhukhula", "isikhukhula"],
+     "xh_stems": ["khukhula"]},
+
+    {"id": "homes", "kind": "context", "flags": ["near_homes"],
+     "en": ["house", "houses", "home", "homes", "yard", "yards", "residents", "families", "our homes", "my house", "households", "rdp houses", "shacks", "informal settlement"],
+     "xh": ["indlu", "izindlu", "amakhaya", "ikhaya", "ekhaya", "emakhayeni", "ezindlwini", "abahlali", "imizi", "emizini"],
+     "xh_stems": ["khaya", "hlali", "ndlwini", "yadi"]},
+
+    {"id": "waste", "kind": "category", "category": "waste", "weight": 1.0,
+     "en": ["rubbish", "garbage", "trash", "refuse", "waste", "litter", "bin", "bins", "wheelie bin", "black bags", "refuse bags", "skip bin", "landfill"],
+     "xh": ["inkunkuma", "ibhini", "iibhini", "iingxowa zenkunkuma"],
+     "xh_stems": ["nkunkuma", "bhini"]},
+
+    {"id": "not_collected", "kind": "category", "category": "waste", "weight": 1.5, "flags": ["uncollected"],
+     "en": ["not collected", "not been collected", "uncollected", "wasn't collected", "weren't collected", "was not collected", "were not collected", "never collected", "no collection", "missed collection", "refuse collection", "rubbish collection", "garbage collection", "collection day", "truck did not come", "truck didn't come"],
+     "xh": ["ayithathwanga", "ayithathwa", "ayiqokelelwanga"],
+     "xh_stems": ["thathwanga", "qokelel"]},
+
+    {"id": "dumping", "kind": "category", "category": "waste", "weight": 1.5, "flags": ["illegal_dumping"],
+     "en": ["illegal dumping", "dumping", "dumped", "dump site", "dumpsite", "dumping site", "people dump"],
+     "xh": ["ukulahlwa", "kulahlwa", "balahla"],
+     "xh_stems": ["lahl"]},
+
+    {"id": "public_infra", "kind": "category", "category": "public_infrastructure", "weight": 1.5,
+     "en": ["playground", "swings", "bus shelter", "bench", "benches", "public building", "sports ground", "broken fence", "fence", "vandalised", "vandalized", "graffiti", "municipal building", "community centre", "community center", "swimming pool"],
+     "xh": ["ibala lemidlalo"]},
+
+    {"id": "broken", "kind": "modifier", "flags": ["broken"],
+     "en": ["broken", "not working", "damaged", "faulty", "out of order", "collapsed", "cracked", "doesn't work", "does not work", "isn't working", "is not working", "stopped working", "broke"],
+     "xh": ["yaphukile", "yonakele", "onakele"],
+     "xh_stems": ["phuk", "sebenzi", "onakal"]},
+
+    {"id": "exposed", "kind": "modifier", "flags": ["exposed"],
+     "en": ["exposed", "hanging", "fallen", "fell", "down", "loose", "naked", "lying", "on the ground", "uncovered", "dangling", "low hanging", "touching the ground"],
+     "xh": ["iwile", "ziwile", "ewileyo"],
+     "xh_stems": ["xhom", "vulek"]},
+
+    {"id": "fire", "kind": "modifier", "flags": ["fire"],
+     "en": ["fire", "on fire", "burning", "burnt", "smoke", "smoking", "flames"],
+     "xh": ["umlilo", "mlilo", "uyatsha", "kuyatsha", "iyatsha"]},
+
+    {"id": "no_danger", "kind": "modifier", "flags": ["no_danger"],
+     "en": ["not dangerous", "no danger", "isn't dangerous", "is not dangerous", "no one is in danger", "nobody is in danger", "nobody is hurt", "no one is hurt", "no one was hurt", "nobody was hurt"],
+     "xh": ["akukho ngozi", "ayiyongozi", "akuyongozi"]},
+
+    {"id": "danger", "kind": "modifier", "flags": ["danger"],
+     "en": ["dangerous", "danger", "unsafe", "hazard", "hazardous", "risky", "deadly", "life threatening"],
+     "xh": ["ingozi", "yingozi", "kuyingozi", "iyingozi", "ziyingozi", "luyingozi", "engozini"],
+     "xh_stems": ["ngozi"]},
+
+    {"id": "injury", "kind": "modifier", "flags": ["injury"],
+     "en": ["injured", "injury", "injuries", "hurt", "accident", "accidents", "crashed", "crash", "fell in", "killed", "died", "death"],
+     "xh": ["wenzakele", "benzakele", "enzakeleyo", "ingozi yemoto"],
+     "xh_stems": ["nzakal", "nzakel"]},
+
+    {"id": "clinic", "kind": "landmark", "landmark": "clinic", "flags": ["vulnerable_place"],
+     "en": ["clinic", "clinics", "day hospital", "health centre", "health center"],
+     "xh": ["ikliniki", "ekliniki"],
+     "xh_stems": ["kliniki", "cliniki"]},
+
+    {"id": "hospital", "kind": "landmark", "landmark": "hospital", "flags": ["vulnerable_place"],
+     "en": ["hospital"],
+     "xh": ["isibhedlele", "esibhedlele"],
+     "xh_stems": ["bhedlele"]},
+
+    {"id": "school", "kind": "landmark", "landmark": "school", "flags": ["vulnerable_place"],
+     "en": ["school", "schools", "primary school", "high school"],
+     "xh": ["isikolo", "izikolo", "esikolweni"],
+     "xh_stems": ["sikol", "zikol"]},
+
+    {"id": "creche", "kind": "landmark", "landmark": "creche", "flags": ["vulnerable_place"],
+     "en": ["creche", "preschool", "pre school", "daycare", "day care", "educare"],
+     "xh": ["ikreshe"],
+     "xh_stems": ["kreshe"]},
+
+    {"id": "old_age_home", "kind": "landmark", "landmark": "old_age_home", "flags": ["vulnerable_place"],
+     "en": ["old age home", "retirement home", "frail care"]},
+
+    {"id": "children", "kind": "context", "flags": ["vulnerable_people"],
+     "en": ["children", "child", "kids", "kid", "learners", "pupils", "babies", "toddlers", "elderly", "old people", "pensioners", "disabled", "wheelchair"],
+     "xh": ["abantwana", "umntwana", "abantu abadala", "abadala", "amaxhego"],
+     "xh_stems": ["ntwana"]},
+
+    {"id": "church", "kind": "landmark", "landmark": "church",
+     "en": ["church"], "xh": ["icawa", "ecaweni"], "xh_stems": ["cawa"]},
+
+    {"id": "shop", "kind": "landmark", "landmark": "shop",
+     "en": ["shop", "spaza", "spaza shop", "tuck shop", "supermarket"], "xh": ["ivenkile", "evenkileni"], "xh_stems": ["venkile"]},
+
+    {"id": "taxi_rank", "kind": "landmark", "landmark": "taxi_rank",
+     "en": ["taxi rank"], "xh": ["irenki", "irenki yeeteksi"]},
+
+    {"id": "mall", "kind": "landmark", "landmark": "mall", "en": ["mall", "shopping centre", "shopping center"]},
+
+    {"id": "police_station", "kind": "landmark", "landmark": "police_station",
+     "en": ["police station"], "xh": ["isikhululo samapolisa"]},
+
+    {"id": "library", "kind": "landmark", "landmark": "library", "category": "public_infrastructure", "weight": 0.3,
+     "en": ["library"], "xh": ["ilayibrari"], "xh_stems": ["layibrari"]},
+
+    {"id": "community_hall", "kind": "landmark", "landmark": "community_hall", "category": "public_infrastructure", "weight": 0.3,
+     "en": ["community hall", "hall"], "xh": ["iholo", "iholo loluntu"]},
+
+    {"id": "park", "kind": "landmark", "landmark": "park", "category": "public_infrastructure", "weight": 0.3,
+     "en": ["park"], "xh": ["ipaki", "epakini"]},
+
+    {"id": "sports_field", "kind": "landmark", "landmark": "sports_field", "category": "public_infrastructure", "weight": 0.3,
+     "en": ["sports field", "soccer field", "stadium"], "xh": ["ibala"]},
+
+    {"id": "bus_stop", "kind": "landmark", "landmark": "bus_stop", "en": ["bus stop", "bus station"]},
+
+    {"id": "garage", "kind": "landmark", "landmark": "garage", "en": ["garage", "petrol station", "filling station"]},
+
+    {"id": "tavern", "kind": "landmark", "landmark": "tavern", "en": ["tavern", "shebeen"]},
+
+    {"id": "bridge", "kind": "landmark", "landmark": "bridge", "category": "roads", "weight": 0.5,
+     "en": ["bridge"], "xh": ["ibhulorho"], "xh_stems": ["bhulorho"]},
+
+    {"id": "scale", "kind": "context", "flags": ["wide_impact"],
+     "en": ["whole area", "whole street", "entire area", "entire street", "whole community", "whole township", "whole section", "whole ward", "whole village", "whole suburb", "everyone", "everybody", "all houses", "all the houses", "many houses", "many homes", "many people", "all residents", "entire community", "the whole road", "whole road"],
+     "xh": ["yonke indawo", "isitrato sonke", "ilokishi yonke", "wonke umntu", "abantu bonke", "zonke izindlu", "onke amakhaya", "abahlali bonke", "yonke", "sonke", "bonke", "wonke", "zonke", "lonke"]},
+
+    {"id": "routine", "kind": "context", "flags": ["routine"],
+     "en": ["request", "requesting", "maintenance", "routine", "repaint", "paint", "painting", "faded", "grass", "cut the grass", "cutting grass", "overgrown", "trim", "trimming", "when possible", "when you can", "not urgent", "no rush", "minor", "small", "slight", "slowly", "slow drip", "suggestion", "suggest", "would like", "please consider", "upgrade"],
+     "xh": ["isicelo", "ingca", "akungxamisekanga", "akukho ngxamiseko", "kancinci"]},
+
+    {"id": "urgent", "kind": "context", "flags": ["resident_urgent"],
+     "en": ["urgent", "urgently", "asap", "emergency", "immediately", "right now", "help us", "please help", "serious"],
+     "xh": ["ngxamisekile", "kungxamisekile", "ncedani", "sincedeni", "khawuleza", "khawulezani"],
+     "xh_stems": ["ngxamisek"]}
+  ],
+
+  "verification_cues": [
+    {"id": "dispute", "flags": ["dispute"],
+     "en": ["still leaking", "still broken", "still not working", "still no water", "still no electricity", "still no power", "still there", "still dark", "still overflowing", "still a problem", "still open", "still dirty", "not fixed", "not been fixed", "never fixed", "hasn't been fixed", "has not been fixed", "wasn't fixed", "was not fixed", "isn't fixed", "is not fixed", "not repaired", "not resolved", "not done", "nothing has been done", "nothing was done", "nothing done", "no one came", "nobody came", "they never came", "never came", "didn't come", "did not come", "came back", "started again", "leaking again", "broken again", "it's back", "not true", "that is a lie", "it's a lie", "lie", "lies", "lying", "false", "worse"],
+     "xh": ["akulungiswanga", "akulungiswa", "ayilungiswanga", "alilungiswanga", "awulungiswanga", "azilungiswanga", "akukalungiswa", "ayikalungiswa", "kusavuza", "isavuza", "lisavuza", "usavuza", "isekhona", "ingxaki isekhona", "isaphukile", "akukho nto yenziweyo", "abafikanga", "khange bafike", "ubuxoki"]},
+
+    {"id": "dispute_weak", "flags": ["dispute_weak"],
+     "en": ["still", "again"],
+     "xh": ["kwakhona"]},
+
+    {"id": "confirm", "flags": ["confirm"],
+     "en": ["fixed", "repaired", "resolved", "sorted", "sorted out", "working now", "works now", "working again", "is working", "it works", "water is back", "power is back", "electricity is back", "lights are back", "back on", "restored", "cleaned", "collected", "patched", "done", "good job", "well done", "all good", "fine now"],
+     "xh": ["kulungisiwe", "ilungisiwe", "lilungisiwe", "ulungisiwe", "zilungisiwe", "ilungile", "kulungile", "iyasebenza", "kuyasebenza", "uyasebenza", "ziyasebenza", "abuyile", "ubuyile"]},
+
+    {"id": "thanks", "flags": ["thanks"],
+     "en": ["thank you", "thanks"],
+     "xh": ["enkosi", "siyabulela", "ndiyabulela"]},
+
+    {"id": "evidence", "flags": ["mentions_photo"],
+     "en": ["photo", "photos", "picture", "pictures", "pic", "pics", "photograph", "photographs", "image", "video", "took a photo", "took a picture"],
+     "xh": ["umfanekiso", "imifanekiso", "ifoto", "iifoto"],
+     "xh_stems": ["fanekiso"]}
+  ],
+
+  "negation_words_en": ["not", "never", "no", "isn't", "isnt", "hasn't", "hasnt", "wasn't", "wasnt", "didn't", "didnt", "don't", "dont", "nothing", "haven't", "havent", "nobody", "aren't", "arent"],
+
+  "xh_prefixes": ["izin", "kwi", "kwa", "nge", "nga", "ngo", "ezi", "eli", "esi", "olu", "obu", "oku", "ama", "aba", "imi", "isi", "izi", "ili", "ulu", "ubu", "uku", "iin", "umu", "aku", "awu", "ayi", "ali", "azi", "asi", "alu", "abu", "aka", "um", "in", "im", "wa", "ba", "ya", "za", "ze", "zo", "la", "sa", "ne", "na", "no", "ku", "ka", "ye", "yi", "li", "zi", "si", "lu", "bu", "e", "o", "i", "u", "a"],
+
+  "language_markers": {
+    "en": ["the", "a", "an", "is", "are", "was", "were", "there", "near", "next", "to", "of", "in", "on", "at", "by", "for", "and", "but", "with", "our", "my", "we", "i", "it", "its", "it's", "this", "that", "has", "have", "been", "not", "no", "please", "since", "from", "outside", "behind", "opposite", "days", "week", "today", "yesterday", "very", "big", "all", "still", "again", "they", "people", "here", "front", "corner", "close", "by", "can", "you", "help", "what", "is", "problem", "hello", "hi", "thank", "thanks", "yes", "fix", "fixed", "come", "came", "for", "street", "road", "house"],
+    "xh": ["kukho", "akukho", "kufuphi", "kufutshane", "kwaye", "nceda", "ndicela", "sicela", "molo", "molweni", "ewe", "hayi", "enkosi", "kakhulu", "apha", "apho", "phaya", "kule", "le", "lo", "eli", "esi", "ezi", "nale", "kwi", "ngoku", "izolo", "namhlanje", "kodwa", "kuba", "ngenxa", "emva", "phambi", "ecaleni", "ngaphandle", "ngaphakathi", "sinengxaki", "ndinengxaki", "ingxaki", "iingxaki", "umasipala", "kumasipala", "kamasipala", "abantu", "umntu", "khona", "ayisebenzi", "akusebenzi", "ndiyabulela", "siyabulela", "mna", "thina", "wena", "yena", "ukuba", "xa", "ngoba", "ilokishi", "ilali", "iwadi", "kwenzeka", "yintoni", "ngubani", "phi", "iphi", "kwiintsuku", "iintsuku", "iveki", "ezimbini", "ezintathu", "ezine", "ezintlanu", "andazi", "andiyazi", "kwakhona", "kunye", "kwesi", "kwale"]
+  },
+
+  "xh_clusters": ["hl", "dl", "tsh", "ngx", "nkq", "xh", "qh", "gq", "bh", "kh", "nts", "mb", "nd", "ng", "nk", "nz", "ny", "tyh", "ty", "ndl"],
+
+  "spelling": {
+    "_about": "Common misspellings and SMS short forms. The original text is always kept; this only helps matching.",
+    "plz": "please", "pls": "please", "plis": "please", "pliz": "please",
+    "thx": "thanks", "thnx": "thanks", "tnx": "thanks",
+    "bcoz": "because", "coz": "because", "cos": "because", "bcos": "because",
+    "nr": "near", "nea": "near", "2day": "today", "ppl": "people", "pple": "people",
+    "watter": "water", "warter": "water", "wather": "water",
+    "leeking": "leaking", "leakin": "leaking", "leaing": "leaking", "leacking": "leaking",
+    "brust": "burst", "bust": "burst",
+    "pipr": "pipe", "pype": "pipe",
+    "electrisity": "electricity", "electricty": "electricity", "eletricity": "electricity", "elecricity": "electricity", "electrcity": "electricity", "electricit": "electricity", "lectricity": "electricity",
+    "transfomer": "transformer", "tranformer": "transformer",
+    "potholes": "potholes", "porthole": "pothole", "pothol": "pothole", "pothhole": "pothole",
+    "sewarage": "sewerage", "sewege": "sewage", "suage": "sewage", "sewer's": "sewers",
+    "rubish": "rubbish", "rubbsh": "rubbish", "garbadge": "garbage", "garbege": "garbage",
+    "streetlite": "streetlight", "streetlights": "streetlights", "stretlight": "streetlight",
+    "clnic": "clinic", "cliniq": "clinic", "klinik": "clinic",
+    "skool": "school", "scool": "school",
+    "dangerus": "dangerous", "dangerouse": "dangerous", "dangeros": "dangerous",
+    "urgnt": "urgent", "urjent": "urgent",
+    "toylet": "toilet", "toilette": "toilet",
+    "wires's": "wires"
+  }
+}
