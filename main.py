@@ -14,6 +14,14 @@ from auth import LoginError, verify_credentials
 from db import supabase
 from notify import send_whatsapp
 
+# AI chatbot (Member 6). Its code is in the report-ec-ai folder.
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "report-ec-ai"))
+from report_ec_ai.integration.supabase_backend import create_live_service  # noqa: E402
+from report_ec_ai.integration.twilio_whatsapp import create_whatsapp_router  # noqa: E402
+
 load_dotenv()
 
 SESSION_SECRET = os.getenv("SESSION_SECRET")
@@ -226,7 +234,11 @@ def update_report(ref: str, update: ReportUpdate, request: Request):
 
     return {"ok": True, "sent": sent, "queued": queued}
 
-
+# WhatsApp chatbot. Twilio sends every resident message to /webhook/whatsapp.
+# Not behind the staff login (Twilio can't log in); every call is checked
+# with Twilio's signature instead (TWILIO_AUTH_TOKEN + PUBLIC_BASE_URL in .env).
+ai = create_live_service(supabase)
+app.include_router(create_whatsapp_router(ai))
 # Serves the dashboard at http://127.0.0.1:8000/dashboard/
 # Keep this line at the bottom so it doesn't hide the routes above.
 app.mount("/dashboard", StaticFiles(directory="static", html=True), name="dashboard")
